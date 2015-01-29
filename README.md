@@ -33,7 +33,7 @@ app.loadiButton = function(ibutton) {
 
 ```
 
-When called, an event is triggered to (re)initialize the Angular app state, authenticate the user, etc. No calls to the API are made until `app.loadiButton()` is called.
+When called with an iButton value, an event is triggered to (re)initialize the Angular app state, authenticate the user, etc. No calls to the API are made until `app.loadiButton()` is called.
 
 ### config.js
 
@@ -66,6 +66,12 @@ var CONFIG = (function() {
   return that;
 }());
 ```
+
+#### CONFIG.devMode
+
+Setting `CONFIG.devMode` to `true` will enable developer mode, which:
+* Exposes `CONFIG.deviButton` to the application, so you don't need to copy/paste one in.
+* Displays a button on landing page to authenticate with `CONFIG.deviButton`, so you don't need to call `app.loadiButton()` from the console.
 
 [angular]: https://angularjs.org/
 [bootstrap]: http://getbootstrap.com/

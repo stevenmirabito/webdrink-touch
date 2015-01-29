@@ -97,6 +97,8 @@ app.factory("TouchscreenService", ["$http", function($http) {
 // "TouchscreenController" - Main app controller
 app.controller("TouchscreenController", ["$scope", "$timeout", "TouchscreenService", function($scope, $timeout, TouchscreenService) {
 
+  $scope.devMode = CONFIG.devMode; // Are we in development mode?
+
   var resetTimeout; // For session timeouts
 
   // Get the ID of the current Drink machine from the URL query string
@@ -126,14 +128,16 @@ app.controller("TouchscreenController", ["$scope", "$timeout", "TouchscreenServi
 
   // authenticate() - Authenticate the user by ibutton value and initialize the drop selection
   var authenticate = function(ibutton) {
-    $scope.ibutton = ibutton; // || (CONFIG.devMode ? CONFIG.devIbutton : false);
+    $scope.ibutton = ibutton || (CONFIG.devMode ? CONFIG.deviButton : false);
     getServerStatus();
     getUserInfo();
     getMachineStock();
     resetTimeout = $timeout(reset, CONFIG.app.sessionTimeout);
   };
-  // Add authenticate to the $scope (NOTE: for testing only)
-  // $scope.login = authenticate;
+  // Add authenticate to the $scope if in devMode
+  if ($scope.devMode) {
+    $scope.login = authenticate;
+  }
   // Listen for authenticaiton event
   $(document).on("webdrink.ibutton.receive", function(e, data) {
     authenticate(data.ibutton);
