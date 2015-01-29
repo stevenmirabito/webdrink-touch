@@ -5,7 +5,7 @@
 // Angular app
 var app = angular.module("touchscreen", []);
 
-// app.loadiButton() - Method to be called by Spynner magic that will authenticate the user by ibutotn
+// app.loadiButton() - Method to be called by Spynner magic that will authenticate the user by ibutton
 app.loadiButton = function(ibutton) {
   $(document).trigger("webdrink.ibutton.receive", { ibutton: ibutton });
 };

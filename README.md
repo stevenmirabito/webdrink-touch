@@ -4,9 +4,42 @@ New CSH WebDrink interface for the Drink machine touchscreens. A spin-off of [We
 
 Made with [AngularJS][angular], [Twitter Bootstrap][bootstrap], and the [WebDrink API][webdrink-api].
 
+## Usage
+
+### Drink Machine Selection
+
+To select which Drink machine's stock to load, add the `machine_id` query parameter to the URL. 
+
+Example: `https://webdrink.csh.rit.edu/touchscreen/?machine_id=1`
+
+machine_id | Machine Name
+--- | ---
+1 | Little Drink
+2 | Big Drink
+3 | Snack
+
+A missing or invalid `machine_id` parameter will result in an initialization error. 
+
+### User Authentication
+
+Unlike the original WebDrink, WebDrink Touch doesn't rely on Webauth to authenticate users. Instead, it must be passed a user's iButton through the `app.loadiButton()` method: 
+
+```javascript
+var app = angular.module("touchscreen", []);
+
+app.loadiButton = function(ibutton) {
+  $(document).trigger("webdrink.ibutton.receive", { ibutton: ibutton });
+};
+
+```
+
+When called, an event is triggered to (re)initialize the Angular app state, authenticate the user, etc. No calls to the API are made until `app.loadiButton()` is called.
+
 ### config.js
 
-To factor out some application settings, create the file `js/config.js` with the following content:
+Important settings and development values have been factored out of the main application code.
+
+Create the file `js/config.js` with the following content:
 
 ```javascript
 // Global configuration object
