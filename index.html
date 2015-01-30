@@ -42,7 +42,14 @@
         </h1>
         <br>
       </div>
-      <button type="button" class="btn btn-default" data-ng-show="devMode" data-ng-click="login()">I touched the (i)butt(on)</button>
+      <div data-ng-show="devMode">
+        <p><button type="button" class="btn btn-default" data-ng-show="devMode" data-ng-click="login()">I touched the (i)butt(on)</button>
+      </div>
+    </div>
+    <!-- Connection Alert -->
+    <div id="connection" class="alert alert-warning center" role="alert" data-ng-show="!connected">
+      <strong id="alertTitle">Warning:</strong>
+      <span id="alertMsg">Can't connect to drink server.</span>
     </div>
     <!-- Drops Page (login state) -->
     <div id="machine" data-ng-show="ibutton">
@@ -57,12 +64,6 @@
           </ul>
         </div>
       </nav>
-      <!-- Connection Alert -->
-      <div id="connection" class="alert alert-warning center" role="alert" data-ng-show="!connected">
-        <strong id="alertTitle">Warning:</strong>
-        <span id="alertMsg">Can't connect to drink server.</span>
-      </div>
-      <!-- Grid of Drinks -->
       <div class="row" id="drinks">
         <drink data-ng-repeat="item in stock" data="item" drop="drop" disabled="disabled(item)"></drink>
       </div>

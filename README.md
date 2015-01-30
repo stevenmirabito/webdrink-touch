@@ -33,7 +33,7 @@ app.loadiButton = function(ibutton) {
 
 ```
 
-When called with an iButton value, an event is triggered to (re)initialize the Angular app state, authenticate the user, etc. No calls to the API are made until `app.loadiButton()` is called.
+When called with an iButton value, an event is triggered to (re)initialize the Angular app state, authenticate the user, etc.
 
 ### config.js
 
@@ -60,7 +60,9 @@ var CONFIG = (function() {
     // How long should the app wait for a drop to be started before logging out?
     sessionTimeout: 30000,
     // How long should the app wait to log out after a drink is dropped?
-    dropTimeout: 3000
+    dropTimeout: 3000,
+    // How long should the app wait in between polling the drink server status?
+    statusTimeout: 60000
   };
   // Return config object
   return that;

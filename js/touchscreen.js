@@ -70,7 +70,11 @@ app.factory("TouchscreenService", ["$http", function($http) {
     },
     // getStatus() - Test the connection to the drink server
     getStatus: function(ibutton, pass, fail) {
-      $http.get(apiUrl+"?request=drops/status&ibutton="+ibutton).success(ajaxSuccess(pass, fail)).error(ajaxError);
+      var url = apiUrl+"?request=drops/status";
+      if (ibutton !== false) {
+        url += "&ibutton="+ibutton;
+      }
+      $http.get(url).success(ajaxSuccess(pass, fail)).error(ajaxError);
     },
     // dropDrink() - Drop a drink
     dropDrink: function(ibutton, machine, slot, pass, fail) {
@@ -95,11 +99,12 @@ app.factory("TouchscreenService", ["$http", function($http) {
 */
 
 // "TouchscreenController" - Main app controller
-app.controller("TouchscreenController", ["$scope", "$timeout", "TouchscreenService", function($scope, $timeout, TouchscreenService) {
+app.controller("TouchscreenController", ["$scope", "$timeout", "$interval", "TouchscreenService", function($scope, $timeout, $interval, TouchscreenService) {
 
   $scope.devMode = CONFIG.devMode; // Are we in development mode?
 
-  var resetTimeout; // For session timeouts
+  var resetTimeout; // For session timeouts when logged it
+  var statusInterval; // For status check when logged out
 
   // Get the ID of the current Drink machine from the URL query string
   var machineId = (function() {
@@ -115,20 +120,24 @@ app.controller("TouchscreenController", ["$scope", "$timeout", "TouchscreenServi
 
   // reset() - Reset the state of the controller
   var reset = function() {
-    $scope.connected = true;
+    console.log("reset() " + Date.now());
     $scope.ibutton = false;
+    getServerStatus();
     $scope.stock = [];
     $scope.user = {};
     $scope.message = "Touch iButton To Continue";
     $scope.detail = false;
     $timeout.cancel(resetTimeout);
+    statusInterval = $interval(getServerStatus, CONFIG.app.statusTimeout);
   };
   // Add reset to the $scope
   $scope.logout = reset;
 
   // authenticate() - Authenticate the user by ibutton value and initialize the drop selection
   var authenticate = function(ibutton) {
+    console.log("authenticate() " + Date.now());
     $scope.ibutton = ibutton || (CONFIG.devMode ? CONFIG.deviButton : false);
+    $interval.cancel(statusInterval);
     getServerStatus();
     getUserInfo();
     getMachineStock();
@@ -145,6 +154,7 @@ app.controller("TouchscreenController", ["$scope", "$timeout", "TouchscreenServi
 
   // getServerStatus() - Check the status of the drink server
   var getServerStatus = function() {
+    console.log("getServerStatus() " + Date.now());
     TouchscreenService.getStatus(
       $scope.ibutton, 
       function(data) {
@@ -159,6 +169,7 @@ app.controller("TouchscreenController", ["$scope", "$timeout", "TouchscreenServi
 
   // getUserInfo() - Get the user's full info (username, credits, etc)
   var getUserInfo = function() {
+    console.log("getUserInfo() " + Date.now());
     if ($scope.ibutton === false) return false;
     TouchscreenService.getUser($scope.ibutton, function(data) {
       $scope.user = data;
@@ -167,23 +178,27 @@ app.controller("TouchscreenController", ["$scope", "$timeout", "TouchscreenServi
 
   // getMachineStock() - Get the stock of the current drink machine
   var getMachineStock = function() {
+    console.log("getMachineStock() " + Date.now());
     if (machineId === false) return false;
     TouchscreenService.getStock(machineId, function(data) {
       $scope.stock = data[machineId];
     });
   };
 
+  // closeModal() - Close the drop modal
+  var closeModal = function() {
+    console.log("closeModal() " + Date.now());
+    $timeout(function() {
+      $("#drop").modal("hide");
+      reset();
+    }, CONFIG.app.dropTimeout);
+  };
+
   // dropDrink() - Drop the selected drink
   var dropDrink = function(drink) {
+    console.log("dropDrink() " + Date.now());
     if (isDrinkDisabled(drink)) return false;
     if ($scope.connected === false) return false;
-    // Close the drop modal
-    var closeModal = function() {
-      $timeout(function() {
-        $("#drop").modal("hide");
-        reset();
-      }, CONFIG.app.dropTimeout);
-    }
     // Don't end the session
     $timeout.cancel(resetTimeout);
     // Drop the drink
@@ -210,9 +225,11 @@ app.controller("TouchscreenController", ["$scope", "$timeout", "TouchscreenServi
 
   // isDrinkDisabled() - Determine if the selected drink is enabled/available/affordable
   var isDrinkDisabled = function(drink) {
+    console.log("isDrinkDisabled() " + Date.now());
     if (drink.status !== 'enabled' ||
         parseInt(drink.available) === 0 ||
-        parseInt(drink.item_price) > parseInt($scope.user.credits)) {
+        parseInt(drink.item_price) > parseInt($scope.user.credits) ||
+        $scope.connected === false) {
       return true;
     }
     return false;
