@@ -141,12 +141,8 @@ app.controller("TouchscreenController", ["$scope", "$timeout", "$interval", "Tou
   // authenticate() - Authenticate the user by ibutton value and initialize the drop selection
   var authenticate = function(ibutton) {
     app.debug("authenticate()");
-    $scope.ibutton = ibutton || (CONFIG.devMode ? CONFIG.deviButton : false);
-    $interval.cancel(statusInterval);
-    getServerStatus();
-    getUserInfo();
-    getMachineStock();
-    resetTimeout = $timeout(reset, CONFIG.app.sessionTimeout);
+    ibutton = ibutton || (CONFIG.devMode ? CONFIG.deviButton : false);
+    getUserInfo(ibutton);
   };
   // Add authenticate to the $scope if in devMode
   if ($scope.devMode) {
@@ -173,12 +169,26 @@ app.controller("TouchscreenController", ["$scope", "$timeout", "$interval", "Tou
   };
 
   // getUserInfo() - Get the user's full info (username, credits, etc)
-  var getUserInfo = function() {
+  var getUserInfo = function(ibutton) {
     app.debug("getUserInfo()");
-    if ($scope.ibutton === false) return false;
-    TouchscreenService.getUser($scope.ibutton, function(data) {
-      $scope.user = data;
-    });
+    if (ibutton === false) return false;
+    TouchscreenService.getUser(
+      ibutton, 
+      function(data) {
+        $scope.ibutton = ibutton;
+        $scope.user = data;
+        $interval.cancel(statusInterval);
+        getServerStatus();
+        getMachineStock();
+        resetTimeout = $timeout(reset, CONFIG.app.sessionTimeout);
+      },
+      function(msg) {
+        $("#ibutton").removeClass("hide");
+        $timeout(function() {
+          $("#ibutton").addClass("hide");
+        }, CONFIG.app.dropTimeout);
+      }
+    );
   };
 
   // getMachineStock() - Get the stock of the current drink machine

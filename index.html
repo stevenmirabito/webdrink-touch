@@ -46,10 +46,14 @@
         <p><button type="button" class="btn btn-default" data-ng-show="devMode" data-ng-click="login()">I touched the (i)butt(on)</button>
       </div>
     </div>
-    <!-- Connection Alert -->
+    <!-- Alerts -->
     <div id="connection" class="alert alert-warning center" role="alert" data-ng-show="!connected">
-      <strong id="alertTitle">Warning:</strong>
-      <span id="alertMsg">Can't connect to drink server.</span>
+      <strong class="title">Warning:</strong>
+      <span class="message">Can't connect to drink server.</span>
+    </div>
+    <div id="ibutton" class="alert alert-warning center hide" role="alert">
+      <strong class="title">Warning:</strong>
+      <span class="message">Invalid iButton.</span>
     </div>
     <!-- Drops Page (login state) -->
     <div id="machine" data-ng-show="ibutton">
