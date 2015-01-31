@@ -110,18 +110,26 @@ app.controller("TouchscreenController", ["$scope", "$timeout", "$interval", "Tou
 
   var resetTimeout; // For session timeouts when logged it
   var statusInterval; // For status check when logged out
+  var machineId; // ID of the current drink machine
 
-  // Get the ID of the current Drink machine from the URL query string
-  var machineId = (function() {
+  // getMachineId() - Get the ID of the current Drink machine from the URL query string
+  var getMachineId = function() {
     var search = window.location.search;
+    console.log(search);
     if (search === "" || search.indexOf("machine_id=") === -1) { 
       $scope.message = "Initialization Error";
-      $scope.detail = "Missing `machine_id` query parameter";
+      $scope.detail = "Missing `machine_id` URL query parameter";
       return false;
     }
-    search = search.split("machine_id=")[1].substr(0, 1);
-    return parseInt(search);
-  }());
+    search = parseInt(search.split("machine_id=")[1].substr(0, 1));
+    console.log(search);
+    if (search < 1 || search > 3) {
+      $scope.message = "Initialization Error";
+      $scope.detail = "Invalid `machine_id`; must be 1, 2, or 3";
+      return false;
+    }
+    return search
+  };
 
   // reset() - Reset the state of the controller
   var reset = function() {
@@ -255,5 +263,6 @@ app.controller("TouchscreenController", ["$scope", "$timeout", "$interval", "Tou
 
   // Initialize the page
   reset();
+  machineId = getMachineId();
 
 }]);
