@@ -32,11 +32,9 @@
   font-weight: normal;
   font-size: 1.25em;
 }
-.holder {
+.drink-img {
   background: #ffffff;
-  border: 1px solid #e7e7e7;
-  border-radius: 5px;
-  width: 100px;
-  height: 100px;
+  width: 98px;
+  height: 98px;
   margin: auto;
 }

@@ -115,20 +115,18 @@ app.controller("TouchscreenController", ["$scope", "$timeout", "$interval", "Tou
   // getMachineId() - Get the ID of the current Drink machine from the URL query string
   var getMachineId = function() {
     var search = window.location.search;
-    console.log(search);
     if (search === "" || search.indexOf("machine_id=") === -1) { 
       $scope.message = "Initialization Error";
       $scope.detail = "Missing `machine_id` URL query parameter";
-      return false;
+      return;
     }
     search = parseInt(search.split("machine_id=")[1].substr(0, 1));
-    console.log(search);
     if (search < 1 || search > 3) {
       $scope.message = "Initialization Error";
       $scope.detail = "Invalid `machine_id`; must be 1, 2, or 3";
-      return false;
+      return;
     }
-    return search
+    machineId = search;
   };
 
   // reset() - Reset the state of the controller
@@ -263,6 +261,6 @@ app.controller("TouchscreenController", ["$scope", "$timeout", "$interval", "Tou
 
   // Initialize the page
   reset();
-  machineId = getMachineId();
+  getMachineId();
 
 }]);
