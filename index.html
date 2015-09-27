@@ -11,12 +11,6 @@
   <!-- Styles -->
   <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
   <link rel="stylesheet" href="css/touchscreen.css">
-  <style>
-    body {
-      padding-top: 10px;
-      padding-bottom: 10px;
-    }
-  </style>
 </head>
 <body>
   <!-- Content -->
@@ -32,30 +26,27 @@
         </div>
       </div>
     </div>
-    <!-- Landing Page (logout state) -->
-    <div id="message" class="center" data-ng-hide="ibutton">
-      <br>
-      <div class="jumbotron">
-        <h1>
-          {{ message }}
-          <small data-ng-show="detail"><br>{{ detail }}</small>
-        </h1>
-        <br>
-      </div>
-      <div data-ng-show="devMode">
-        <p><button type="button" class="btn btn-default" data-ng-show="devMode" data-ng-click="login()">I touched the (i)butt(on)</button>
-      </div>
+
+    <!-- Alert Dock -->
+    <div class="alert-dock navbar-fixed-bottom">
+        <!-- Alerts -->
+        <div id="connection" class="alert alert-warning center" role="alert" data-ng-show="!connected">
+          <strong class="title">Warning:</strong>
+          <span class="message">Can't connect to drink server.</span>
+        </div>
+        <div id="ibutton" class="alert alert-danger center hide" role="alert">
+          <strong class="title">Unable to find user. Please try again.</strong>
+        </div>
+
+        <!-- Authentication Prompt (unauthenticated state) -->
+        <div id="authPrompt" class="alert alert-dark center" role="alert" data-ng-hide="ibutton">
+            <strong class="title">{{ message }}</strong>
+            <span class="message" data-ng-show="detail">{{ detail }}</span>
+            <button type="button" class="btn btn-default" data-ng-show="devMode" data-ng-click="login()">Developer Mode Login &rarr;</button>
+        </div>
     </div>
-    <!-- Alerts -->
-    <div id="connection" class="alert alert-warning center" role="alert" data-ng-show="!connected">
-      <strong class="title">Warning:</strong>
-      <span class="message">Can't connect to drink server.</span>
-    </div>
-    <div id="ibutton" class="alert alert-warning center hide" role="alert">
-      <strong class="title">Warning:</strong>
-      <span class="message">Invalid iButton.</span>
-    </div>
-    <!-- Drops Page (login state) -->
+
+    <!-- Drops Page (authenticated state) -->
     <div id="machine" data-ng-show="ibutton">
       <nav class="navbar navbar-default">
         <div class="container-fluid">
@@ -76,7 +67,7 @@
   <!-- Scripts -->
   <script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
   <script src="//netdna.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
-  <script src="//code.angularjs.org/snapshot/angular.min.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.6/angular.min.js"></script>
   <script src="js/config.js"></script>
   <script src="js/touchscreen.js"></script> 
 </body>

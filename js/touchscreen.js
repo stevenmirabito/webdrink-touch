@@ -14,7 +14,7 @@ app.debug = function(msg) {
   if (CONFIG.devMode) {
     console.log(Date.now() + " | " + msg)
   }
-}
+};
 
 /*
 *   Directives
@@ -56,7 +56,7 @@ app.factory("TouchscreenService", ["$http", function($http) {
         }
       }
     };
-  }
+  };
 
   // ajaxError() - handle AJAX errors
   var ajaxError = function(e) {
@@ -136,7 +136,7 @@ app.controller("TouchscreenController", ["$scope", "$timeout", "$interval", "Tou
     getServerStatus();
     $scope.stock = [];
     $scope.user = {};
-    $scope.message = "Touch iButton To Continue";
+    $scope.message = "Touch iButton or Tap RFID";
     $scope.detail = false;
     $timeout.cancel(resetTimeout);
     statusInterval = $interval(getServerStatus, CONFIG.app.statusTimeout);
@@ -226,7 +226,7 @@ app.controller("TouchscreenController", ["$scope", "$timeout", "$interval", "Tou
     // Don't end the session
     $timeout.cancel(resetTimeout);
     // Drop the drink
-    $scope.drop_message = "Dropping " + drink.item_name + "..."
+    $scope.drop_message = "Dropping " + drink.item_name + "...";
     $("#drop").modal("show");
     TouchscreenService.dropDrink(
       $scope.ibutton, 
@@ -257,7 +257,7 @@ app.controller("TouchscreenController", ["$scope", "$timeout", "$interval", "Tou
       return true;
     }
     return false;
-  }
+  };
 
   // Initialize the page
   reset();
