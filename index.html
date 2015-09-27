@@ -1,74 +1,88 @@
 <!DOCTYPE HTML>
-<html data-ng-app="touchscreen">
+<html ng-app="touchscreen">
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="">
-  <meta name="keywords" content="">
-  <meta name="author" content="">
-  <title>WebDrink</title>
-  <!-- Styles -->
-  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
-  <link rel="stylesheet" href="css/touchscreen.css">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="author" content="">
+    <title>WebDrink Touch</title>
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/touchscreen.css">
+    <link rel="stylesheet" href="css/slider.css">
 </head>
 <body>
-  <!-- Content -->
-  <div class="container" data-ng-controller="TouchscreenController">
+<!-- Background Slider -->
+<div id="myCarousel" class="carousel slide">
+    <div class="carousel-inner">
+        <div class="active item one"></div>
+        <div class="item two"></div>
+        <div class="item three"></div>
+    </div>
+</div>
+
+<!-- Container -->
+<div class="container" ng-controller="TouchscreenController">
     <!-- Drop Modal -->
     <div id="drop" class="modal fade center" data-backdrop="static">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-body">
-            <h2>{{ drop_message }}</h2>
-            <br>
-          </div>
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <h2>{{ drop_message }}</h2>
+                    <br>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
 
     <!-- Alert Dock -->
     <div class="alert-dock navbar-fixed-bottom">
         <!-- Alerts -->
-        <div id="connection" class="alert alert-warning center" role="alert" data-ng-show="!connected">
-          <strong class="title">Warning:</strong>
-          <span class="message">Can't connect to drink server.</span>
+        <div id="connection" class="alert alert-warning center" role="alert" ng-show="!connected">
+            <strong class="title">Warning:</strong>
+            <span class="message">Can't connect to drink server.</span>
         </div>
         <div id="ibutton" class="alert alert-danger center hide" role="alert">
-          <strong class="title">Unable to find user. Please try again.</strong>
+            <strong class="title">Unable to find user. Please try again.</strong>
         </div>
 
         <!-- Authentication Prompt (unauthenticated state) -->
-        <div id="authPrompt" class="alert alert-dark center" role="alert" data-ng-hide="ibutton">
+        <div id="authPrompt" class="alert alert-dark center" role="alert" ng-hide="ibutton">
             <strong class="title">{{ message }}</strong>
-            <span class="message" data-ng-show="detail">{{ detail }}</span>
-            <button type="button" class="btn btn-default" data-ng-show="devMode" data-ng-click="login()">Developer Mode Login &rarr;</button>
+            <span class="message" ng-show="detail">{{ detail }}</span>
+            <button type="button" class="btn btn-default" ng-show="devMode" ng-click="login()">Developer Mode
+                Login &rarr;</button>
         </div>
     </div>
 
     <!-- Drops Page (authenticated state) -->
-    <div id="machine" data-ng-show="ibutton">
-      <nav class="navbar navbar-default">
-        <div class="container-fluid">
-          <div class="navbar-header">
-            <strong><a class="navbar-brand" href="#">{{ stock[0].display_name }}</a></strong>
-          </div>
-          <ul class="nav navbar-nav navbar-right">
-            <li class="navitem"><a href="#">{{ user.uid }} ({{ user.credits }} Credits)</a></li>
-            <li class="navitem"><a href="#" data-ng-click="logout()">Log Out</a></li>
-          </ul>
+    <div id="machine" ng-show="ibutton">
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <strong><a class="navbar-brand" href="#">{{ stock[0].display_name }}</a></strong>
+                </div>
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="navitem"><a href="#">{{ user.uid }} ({{ user.credits }} Credits)</a></li>
+                    <li class="navitem"><a href="#" ng-click="logout()">Log Out</a></li>
+                </ul>
+            </div>
+        </nav>
+        <div class="row" id="drinks">
+            <drink ng-repeat="item in stock" data="item" drop="drop"></drink>
         </div>
-      </nav>
-      <div class="row" id="drinks">
-        <drink data-ng-repeat="item in stock" data="item" drop="drop"></drink>
-      </div>
     </div>
-  </div>
-  <!-- Scripts -->
-  <script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
-  <script src="//netdna.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
-  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.6/angular.min.js"></script>
-  <script src="js/config.js"></script>
-  <script src="js/touchscreen.js"></script> 
+</div>
+
+<!-- Scripts -->
+<script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.6/angular.min.js"></script>
+<script src="js/config.js"></script>
+<script src="js/touchscreen.js"></script>
+<script src="js/slider.js"></script>
 </body>
 </html>

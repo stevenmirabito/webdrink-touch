@@ -1,0 +1,29 @@
+/* Keeps this behind all content */
+.carousel {
+    z-index: -99;
+}
+
+.carousel .item {
+    position: fixed;
+    left: 0 !important;
+    width: 100%;
+    height: 100%;
+}
+
+.carousel .one {
+    background: url(https://placeholdit.imgix.net/~text?txtsize=75&txt=Announcement+1&w=800&h=600);
+    background-size: cover;
+    -moz-background-size: cover;
+}
+
+.carousel .two {
+    background: url(https://placeholdit.imgix.net/~text?txtsize=75&txt=Announcement+2&w=800&h=600);
+    background-size: cover;
+    -moz-background-size: cover;
+}
+
+.carousel .three {
+    background: url(https://placeholdit.imgix.net/~text?txtsize=75&txt=Announcement+3&w=800&h=600);
+    background-size: cover;
+    -moz-background-size: cover;
+}

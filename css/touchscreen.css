@@ -1,19 +1,20 @@
-body {
+.container {
     padding: 10px;
     width: 100%
 }
+
 .hide {
-  display: none;
+    display: none;
 }
 
 .center {
-  text-align: center;
+    text-align: center;
 }
 
 .alert-dark {
-  color: #ececec;
-  background-color: #333333;
-  border-color: #000000;
+    color: #ececec;
+    background-color: #333333;
+    border-color: #000000;
 }
 
 .alert-dock {
@@ -32,42 +33,42 @@ body {
 }
 
 #machine {
-  font-size: 1.25em;
+    font-size: 1.25em;
 }
 
 #drop .modal-dialog {
-  margin-top: 100px;
+    margin-top: 100px;
 }
 
 .drink {
-  background: #f8f8f8;
-  padding: 5px;
-  border: 1px solid #e7e7e7;
-  border-radius: 5px;
-  margin-bottom: 30px;
-  text-align: center;
-  cursor: pointer;
-  transition: border .25s;
+    background: #f8f8f8;
+    padding: 5px;
+    border: 1px solid #e7e7e7;
+    border-radius: 5px;
+    margin-bottom: 30px;
+    text-align: center;
+    cursor: pointer;
+    transition: border .25s;
 }
 
 .drink:hover {
-  border: 1px solid #337ab7;
-  transition: border .25s;
+    border: 1px solid #337ab7;
+    transition: border .25s;
 }
 
-.drink-disabled{
-  color: #e7e7e7;
-  border: 1px solid #e7e7e7 !important;
+.drink-disabled {
+    color: #e7e7e7;
+    border: 1px solid #e7e7e7 !important;
 }
 
 .name {
-  font-weight: normal;
-  font-size: 1.25em;
+    font-weight: normal;
+    font-size: 1.25em;
 }
 
 .drink-img {
-  background: #ffffff;
-  width: 98px;
-  height: 98px;
-  margin: auto;
+    background: #ffffff;
+    width: 98px;
+    height: 98px;
+    margin: auto;
 }
